@@ -3,6 +3,7 @@ import 'package:devtoclient/blocs/article_bloc/article_bloc.dart';
 import 'package:devtoclient/blocs/article_bloc/article_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dio/dio.dart';
 
 class ArticlesPage extends StatefulWidget {
   ArticlesPage({Key key}) : super(key: key);
@@ -11,7 +12,10 @@ class ArticlesPage extends StatefulWidget {
 }
 
 class _ArticlesPageState extends State<ArticlesPage> {
-  ArticleBloc _bloc = ArticleBloc();
+  
+
+  
+  ArticleBloc _bloc = ArticleBloc(dio: Dio());
 
   Widget _bodyWidget;
 
@@ -20,6 +24,7 @@ class _ArticlesPageState extends State<ArticlesPage> {
     super.initState();
     _bloc.getArticles(page: 1);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +70,7 @@ class _ArticlesPageState extends State<ArticlesPage> {
             child: BlocBuilder<ArticleBloc, ArticleState>(
               condition: (preStatus, currentStatus) {
                 if (preStatus == currentStatus &&
-                    currentStatus == ArticleLoadedState) {
+                    currentStatus is ArticleLoadedState) {
                   return (preStatus as ArticleLoadedState).articles.length !=
                       (currentStatus as ArticleLoadedState).articles.length;
                 } else {

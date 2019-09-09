@@ -16,6 +16,6 @@ class UserLoadedEvent extends UserEvent{
   UserLoadedEvent({this.user}):super([user]);
 }
 
-class UserLodingError extends UserEvent {
+class UserLodingErrorEvent extends UserEvent {
   
 }

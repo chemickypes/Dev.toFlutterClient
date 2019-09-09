@@ -10,6 +10,20 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   Stream<UserState> mapEventToState(
     UserEvent event,
   ) async* {
-    // TODO: Add Logic
+    if( event  is UserLoadingEvent){
+      yield UserLoadingState();
+    }else if (event is UserLoadedEvent){
+      yield UserLoadedState(user:event.user);
+    }else if(event is UserLodingErrorEvent){
+      yield UserLoadingErrorState();
+    }
   }
+
+  void getUser(){
+    dispatch(UserLoadingEvent());
+    
+  }
+
 }
+
+
