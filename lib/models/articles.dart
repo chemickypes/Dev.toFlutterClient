@@ -9,15 +9,21 @@ class Article extends Equatable {
   int id;
   String title;
   String description;
+  @JsonKey(name: 'cover_image')
   String coverImage;
   String publishedAt;
+  @JsonKey(name: 'tag_list')
   List<String> tagList;
   String slug;
   String path;
   String url;
+  @JsonKey(name: 'canonical_url')
   String canonicalUrl;
+  @JsonKey(name: 'comments_count')
   int commentsCount;
+  @JsonKey(name: 'positive_reactions_count')
   int positiveReactionsCount;
+  @JsonKey(name: 'published_timestamp')
   String publishedTimestamp;
   User user;
   Organization organization;
@@ -113,10 +119,15 @@ class Article extends Equatable {
 class User extends Equatable {
   String name;
   String username;
+  @JsonKey(name: 'twitter_username')
   String twitterUsername;
+   @JsonKey(name: 'github_username')
   String githubUsername;
+   @JsonKey(name: 'website_url')
   String websiteUrl;
+  @JsonKey(name: 'profile_image')
   String profileImage;
+  @JsonKey(name: 'profile_image_90')
   String profileImage90;
 
   User(
@@ -168,7 +179,11 @@ class Organization extends Equatable {
   String name;
   String username;
   String slug;
+  
+  
+  @JsonKey(name: 'profile_image')
   String profileImage;
+  @JsonKey(name: 'profile_image_90')
   String profileImage90;
 
   Organization(

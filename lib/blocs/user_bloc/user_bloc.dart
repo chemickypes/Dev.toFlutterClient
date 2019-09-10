@@ -32,6 +32,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     });
   }
 
+  void saveApiKey(String s) {
+    _services.saveApiKey(s);
+    getUser();
+  }
+
 }
 
 

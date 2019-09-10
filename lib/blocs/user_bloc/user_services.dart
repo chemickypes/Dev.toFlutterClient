@@ -8,11 +8,24 @@ import 'package:devtoclient/server/server_module.dart';
 
 class UserServices {
 
-  Dio dio = ServerModule().getDio;
+  ServerModule serverModule ;
+  Dio dio;
+
+  UserServices(){
+    serverModule = ServerModule();
+    dio = serverModule.getDio;
+  }
+
+
   
   Future<User> getUser() async {
       List<Article> ll = await ArticlesRestClient(dio).getUserPosts(1);
       return Future.value(ll.first.user);
+  }
+
+  void saveApiKey(String s) {
+    serverModule.insertApiKey(s);
+    dio = serverModule.getDio;
   }
 
   

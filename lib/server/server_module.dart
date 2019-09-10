@@ -8,19 +8,21 @@ class ServerModule {
   void init(){
     
 
-    _getInjector().map<Dio>((i) => Dio(), isSingleton: true);
-    _getInjector().map<String>((i) => "", key: 'api-key');
+    _getInjector().map<Dio>((i) => _initDio(), isSingleton: true);
+    _getInjector().map<DioHeader>((i) => DioHeader(), isSingleton: true);
   }
 
   void insertApiKey(String apikey){
-      _getInjector().map<String>((i) => apikey, key: 'api-key');
+    _getInjector().get<DioHeader>().apiKey = apikey;
   }
 
   Dio get getDio {
     Dio dio = _getInjector().get<Dio>();
-    String api_key = _getInjector().get<String>(key: 'api-key');
-    if(api_key != null || api_key.isNotEmpty){
-      dio..options.headers['api-key'] = api_key;
+    DioHeader dioHeader = _getInjector().get<DioHeader>();
+    String api_key = dioHeader.apiKey;
+    //print(dioHeader.toString());
+    if(api_key != null || api_key?.isNotEmpty == true){
+      dio.options.headers['api-key'] = api_key;
     }
     return dio;
   }
@@ -31,5 +33,27 @@ class ServerModule {
     }
 
     return _injector;
+  }
+
+  Dio _initDio(){
+
+    return Dio()
+    ..interceptors.add(InterceptorsWrapper(
+      onRequest: (RequestOptions options){
+        print("header: ${options.headers.toString()}");
+      }
+    ));
+
+  }
+}
+
+class DioHeader{
+
+  String apiKey;
+
+  @override
+  String toString() {
+    
+    return 'DioHeader: api-key: $apiKey ';
   }
 }
