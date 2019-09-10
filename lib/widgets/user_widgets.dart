@@ -15,7 +15,7 @@ class UserIcon extends StatelessWidget {
      UserBloc _bloc = BlocProvider.of<UserBloc>(context);
 
       return _getIcon(status, (){
-        _bloc.saveApiKey('T5rmFtnJ2SMhjkhpHPRMGY3A');
+        _bloc.saveApiKey('');
       });
     });
   }
