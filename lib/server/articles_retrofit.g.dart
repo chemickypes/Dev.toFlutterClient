@@ -34,4 +34,24 @@ class _ArticlesRestClient implements ArticlesRestClient {
         .toList();
     return Future.value(value);
   }
+
+  @override
+  getUserPosts(page) async {
+    ArgumentError.checkNotNull(page, 'page');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{'page': page};
+    final _data = <String, dynamic>{};
+    final Response<List<dynamic>> _result = await _dio.request('/articles/me',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    var value = _result.data
+        .map((dynamic i) => Article.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return Future.value(value);
+  }
 }

@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:devtoclient/blocs/user_bloc/user_services.dart';
 import './bloc.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
+  UserServices _services = UserServices();
   @override
   UserState get initialState => InitialUserState();
 
@@ -21,7 +23,13 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   void getUser(){
     dispatch(UserLoadingEvent());
-    
+    _services.getUser().then(
+      (user){
+        dispatch(UserLoadedEvent(user:user));
+      }
+    ).catchError((e){
+      print(e);
+    });
   }
 
 }

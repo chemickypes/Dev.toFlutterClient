@@ -10,4 +10,7 @@ abstract class ArticlesRestClient {
 
   @GET("/articles")
   Future<List<Article>> getPosts(@Query('page') int page);
+
+  @GET("/articles/me")
+  Future<List<Article>> getUserPosts(@Query('page') int page);
 }
