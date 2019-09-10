@@ -6,13 +6,9 @@ import 'package:dio/dio.dart';
 
 class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
 
-  Dio dio;
+  
 
-  ArticleBloc({this.dio}){
-    _services = ArticleServices(dio: dio);
-  }
-
-  ArticleServices _services;
+  ArticleServices _services = ArticleServices();
   
 
   @override

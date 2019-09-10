@@ -1,7 +1,11 @@
 import 'package:devtoclient/pages/articles_page.dart';
+import 'package:devtoclient/server/server_module.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  ServerModule().init();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

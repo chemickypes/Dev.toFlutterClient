@@ -1,10 +1,11 @@
+import 'package:devtoclient/server/server_module.dart';
 import 'package:dio/dio.dart';
 import 'package:devtoclient/models/articles.dart';
 import 'package:devtoclient/server/articles_retrofit.dart';
 
 class ArticleServices {
-  ArticleServices({this.dio});
-  Dio dio;
+  ArticleServices();
+  Dio dio = ServerModule().getDio;
 
   Future<List<Article>> getArticles({int page = 1}) {
     // return Future.delayed(Duration(seconds: 4),() => [

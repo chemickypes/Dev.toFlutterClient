@@ -15,7 +15,7 @@ class _ArticlesPageState extends State<ArticlesPage> {
   
 
   
-  ArticleBloc _bloc = ArticleBloc(dio: Dio());
+  ArticleBloc _bloc = ArticleBloc();
 
   Widget _bodyWidget;
 
