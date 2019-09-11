@@ -2,6 +2,7 @@ import 'package:devtoclient/models/articles.dart';
 import 'package:devtoclient/widgets/user_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../blocs/article_bloc/bloc.dart';
 
@@ -57,19 +58,23 @@ class ArticleCard extends StatelessWidget {
   List<Widget> _populateCard() {
     var ws = <Widget>[];
     if (article.coverImage != null) {
-      /* ws.add(
-        Stack(
-          children: <Widget>[
-            Center(
-              child: CircularProgressIndicator(),
-            ),
-            Image.network(
-              article.coverImage,
-              fit: BoxFit.cover,
-            )
-          ],
+      ws.add(
+        CachedNetworkImage(
+          imageUrl: article.coverImage,
+          placeholder: (context, url) => new CircularProgressIndicator(),
+          errorWidget: (context, url, error) => new Icon(Icons.error),
+          /*imageBuilder: (context, imageProvider) {
+            return Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            );
+          },*/
         ),
-      ); */
+      );
     }
 
     ws.add(Row(
@@ -86,9 +91,8 @@ class ArticleCard extends StatelessWidget {
           ),
         ),
         Flexible(
-        
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -101,13 +105,15 @@ class ArticleCard extends StatelessWidget {
                 ),
                 Text('Author: ${article.user.name}'),
                 Wrap(
+                  spacing: 3,
+                  runSpacing: 0,
                   children: article.tagList.map((tag) {
                     return Chip(
-                      label: Text(
-                        tag,
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    );
+                        label: Text(
+                          tag,
+                          style: TextStyle(fontSize: 12),
+                        ),
+                      );
                   }).toList(),
                 )
               ],
