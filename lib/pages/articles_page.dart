@@ -39,7 +39,7 @@ class _ArticlesPageState extends State<ArticlesPage> {
         appBar: AppBar(
           title: Text("Dev.to Articles"),
           actions: <Widget>[
-            UserIcon()
+            AppBarUserIcon()
           ],
         ),
         body: Container(

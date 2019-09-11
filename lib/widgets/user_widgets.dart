@@ -1,11 +1,11 @@
-import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:devtoclient/blocs/user_bloc/bloc.dart';
 import 'package:devtoclient/blocs/user_bloc/user_bloc.dart';
+import 'package:devtoclient/models/articles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class UserIcon extends StatelessWidget {
-  const UserIcon({Key key}) : super(key: key);
+class AppBarUserIcon extends StatelessWidget {
+  const AppBarUserIcon({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class UserIcon extends StatelessWidget {
       UserBloc _bloc = BlocProvider.of<UserBloc>(context);
 
       return IconButton(
-        icon: _getUserIconStack(status),
+        icon: _getUserIcon(status),
         onPressed: () {
           _bloc.saveApiKey("T5rmFtnJ2SMhjkhpHPRMGY3A");
         },
@@ -21,14 +21,37 @@ class UserIcon extends StatelessWidget {
     });
   }
 
-  Widget _getUserIconStack(UserState state) {
+  Widget _getUserIcon(UserState state) {
+    return UserIcon(
+      user: (state is UserLoadedState) ? state.user : null,
+      height: 33,
+      width: 33,
+    );
+  }
+
+
+}
+
+class UserIcon extends StatelessWidget {
+  const UserIcon({Key key, this.user, this.height = 33, this.width = 33})
+      : super(key: key);
+  final User user;
+  final double height;
+  final double width;
+
+  @override
+  Widget build(BuildContext context) {
+    return _getUserIconStack();
+  }
+
+  Widget _getUserIconStack() {
     var ss = Stack(
       children: <Widget>[
         Align(
           alignment: Alignment.center,
           child: Container(
-            height: 33,
-            width: 33,
+            height: this.height,
+            width: this.width,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.white,
@@ -45,17 +68,17 @@ class UserIcon extends StatelessWidget {
       ],
     );
 
-    if (state is UserLoadedState) {
-      if (state.user.profileImage90 != null) {
+    if (user != null) {
+      if (user.profileImage90 != null) {
         ss.children.add(
           Align(
             alignment: Alignment.center,
             child: ClipOval(
               child: Image.network(
-                state.user.profileImage90,
+                user.profileImage90,
                 fit: BoxFit.cover,
-                height: 30,
-                width: 30,
+                height: this.height - 3,
+                width: this.width - 3,
               ),
             ),
           ),
@@ -65,7 +88,7 @@ class UserIcon extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: Text(
-              state.user.name[0],
+              user.name[0],
               style:
                   TextStyle(color: Colors.indigo, fontWeight: FontWeight.bold),
             ),
@@ -75,6 +98,4 @@ class UserIcon extends StatelessWidget {
     }
     return ss;
   }
-
-  
 }
