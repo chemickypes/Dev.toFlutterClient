@@ -13,38 +13,68 @@ class UserIcon extends StatelessWidget {
       UserBloc _bloc = BlocProvider.of<UserBloc>(context);
 
       return IconButton(
-        icon: ClipOval(
-          child: _getUserIcon(status),
-        ),
+        icon: _getUserIconStack(status),
         onPressed: () {
-          _bloc.saveApiKey("");
+          _bloc.saveApiKey("T5rmFtnJ2SMhjkhpHPRMGY3A");
         },
       );
     });
   }
 
-  Widget _getUserIcon(UserState state) {
-    if (state is UserLoadedState && state.user.profileImage90 != null) {
-      return Image.network(
-        state.user.profileImage90,
-        fit: BoxFit.cover,
-        height: 30,
-        width: 30,
-      );
-    } else {
-      return Container(
-        color: Colors.white,
-        child: SizedBox(
-          child:  Icon(
+  Widget _getUserIconStack(UserState state) {
+    var ss = Stack(
+      children: <Widget>[
+        Align(
+          alignment: Alignment.center,
+          child: Container(
+            height: 33,
+            width: 33,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white,
+            ),
+          ),
+        ),
+        Align(
+          alignment: Alignment.center,
+          child: Icon(
             Icons.person,
             color: Colors.indigo,
           ),
-          height: 30,
-          width: 30,
-        ),
-      );
+        )
+      ],
+    );
+
+    if (state is UserLoadedState) {
+      if (state.user.profileImage90 != null) {
+        ss.children.add(
+          Align(
+            alignment: Alignment.center,
+            child: ClipOval(
+              child: Image.network(
+                state.user.profileImage90,
+                fit: BoxFit.cover,
+                height: 30,
+                width: 30,
+              ),
+            ),
+          ),
+        );
+      } else {
+        ss.children.add(
+          Align(
+            alignment: Alignment.center,
+            child: Text(
+              state.user.name[0],
+              style:
+                  TextStyle(color: Colors.indigo, fontWeight: FontWeight.bold),
+            ),
+          ),
+        );
+      }
     }
+    return ss;
   }
 
- 
+  
 }
