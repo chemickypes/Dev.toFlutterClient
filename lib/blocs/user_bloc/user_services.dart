@@ -1,41 +1,26 @@
-
 import 'dart:async';
 
 import 'package:devtoclient/server/articles_retrofit.dart';
-import 'package:devtoclient/storage/session_shared_pref.dart';
-import 'package:dio/dio.dart';
+import 'package:devtoclient/server/generic_services.dart';
 import 'package:devtoclient/models/articles.dart';
-import 'package:devtoclient/server/server_module.dart';
 
-class UserServices {
+class UserServices extends GenericService {
+  UserServices() : super();
 
-  ServerModule serverModule ;
-  Dio dio;
-
-  UserServices(){
-    serverModule = ServerModule();
-    dio = serverModule.getDio;
-  }
-
-
-  
   Future<User> getUser() async {
+    return execute(Future.sync(() async {
       List<Article> ll = await ArticlesRestClient(dio).getUserPosts(1);
       return Future.value(ll.first.user);
+    }));
   }
-
 
   Future<User> login(String apiKey) async {
-      DCSession().saveApiKeyOnStore(apiKey);
-      serverModule.insertApiKey(apiKey);
-      dio = serverModule.getDio;
-      return getUser();
+    super.saveApiKey(apiKey);
+    return getUser();
   }
 
-  Future<bool> logout() async{
-    DCSession().removeApiKey();
+  Future<bool> logout() async {
+    super.removeApiKey();
     return Future.delayed(Duration(milliseconds: 500), () => true);
   }
-
-  
 }

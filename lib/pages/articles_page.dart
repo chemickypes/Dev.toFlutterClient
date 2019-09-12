@@ -3,6 +3,7 @@ import 'package:devtoclient/blocs/article_bloc/article_state.dart';
 import 'package:devtoclient/blocs/bloc_module.dart';
 import 'package:devtoclient/blocs/user_bloc/bloc.dart';
 import 'package:devtoclient/blocs/user_bloc/user_bloc.dart';
+import 'package:devtoclient/server/server_module.dart';
 import 'package:devtoclient/widgets/articles_widget.dart';
 import 'package:devtoclient/widgets/user_widgets.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +22,12 @@ class _ArticlesPageState extends State<ArticlesPage> {
   @override
   void initState() {
     super.initState();
-    _bloc.getArticles(page: 1);
-    _userBloc.getUser();
+    ServerModule().initDCSession().then((bool) {
+      var apiKeyRestored = ServerModule().restoreApiKey();
+      print('api-key restored: $apiKeyRestored');
+      _bloc.getArticles(page: 1);
+      _userBloc.getUser();
+    });
   }
 
   @override
@@ -39,9 +44,7 @@ class _ArticlesPageState extends State<ArticlesPage> {
       child: Scaffold(
         appBar: AppBar(
           title: Text("Dev.to Articles"),
-          actions: <Widget>[
-            AppBarUserIcon()
-          ],
+          actions: <Widget>[AppBarUserIcon()],
         ),
         body: Container(
           child: BlocListener<ArticleBloc, ArticleState>(
