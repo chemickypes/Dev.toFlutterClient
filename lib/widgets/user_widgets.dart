@@ -11,7 +11,6 @@ class AppBarUserIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(builder: (context, status) {
-      UserBloc _bloc = BlocProvider.of<UserBloc>(context);
 
       return IconButton(
         icon: _getUserIcon(status),

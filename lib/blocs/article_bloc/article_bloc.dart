@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:devtoclient/blocs/article_bloc/article_services.dart';
 import './bloc.dart';
-import 'package:dio/dio.dart';
 
 class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
 
