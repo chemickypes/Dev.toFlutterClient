@@ -1,5 +1,6 @@
 import 'package:devtoclient/blocs/article_bloc/article_bloc.dart';
 import 'package:devtoclient/blocs/article_bloc/article_state.dart';
+import 'package:devtoclient/blocs/bloc_module.dart';
 import 'package:devtoclient/blocs/user_bloc/bloc.dart';
 import 'package:devtoclient/blocs/user_bloc/user_bloc.dart';
 import 'package:devtoclient/widgets/articles_widget.dart';
@@ -14,8 +15,8 @@ class ArticlesPage extends StatefulWidget {
 }
 
 class _ArticlesPageState extends State<ArticlesPage> {
-  ArticleBloc _bloc = ArticleBloc();
-  UserBloc _userBloc = UserBloc();
+  ArticleBloc _bloc = BlocsModule().get<ArticleBloc>();
+  UserBloc _userBloc = BlocsModule().get<UserBloc>();
 
   @override
   void initState() {

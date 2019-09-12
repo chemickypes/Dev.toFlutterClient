@@ -1,9 +1,11 @@
+import 'package:devtoclient/blocs/bloc_module.dart';
 import 'package:devtoclient/pages/articles_page.dart';
 import 'package:devtoclient/server/server_module.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   ServerModule().init();
+  BlocsModule().init();
   runApp(MyApp());
 }
 

@@ -1,6 +1,7 @@
 import 'package:devtoclient/blocs/user_bloc/bloc.dart';
 import 'package:devtoclient/blocs/user_bloc/user_bloc.dart';
 import 'package:devtoclient/models/articles.dart';
+import 'package:devtoclient/pages/user_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,7 +16,13 @@ class AppBarUserIcon extends StatelessWidget {
       return IconButton(
         icon: _getUserIcon(status),
         onPressed: () {
-          _bloc.saveApiKey("T5rmFtnJ2SMhjkhpHPRMGY3A");
+          //_bloc.saveApiKey("T5rmFtnJ2SMhjkhpHPRMGY3A");
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UserPage(),
+            ),
+          );
         },
       );
     });
@@ -28,8 +35,6 @@ class AppBarUserIcon extends StatelessWidget {
       width: 33,
     );
   }
-
-
 }
 
 class UserIcon extends StatelessWidget {

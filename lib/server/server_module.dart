@@ -1,13 +1,15 @@
 
+import 'package:devtoclient/abstract_injection_module.dart';
 import 'package:flutter_simple_dependency_injection/injector.dart';
 import 'package:dio/dio.dart';
 
-class ServerModule {
-  Injector _injector;
+class ServerModule extends AInjecstionModule{
 
+  static const String SCOPE_MODULE = "server_module";
+
+
+  @override
   void init(){
-    
-
     _getInjector().map<Dio>((i) => _initDio(), isSingleton: true);
     _getInjector().map<DioHeader>((i) => DioHeader(), isSingleton: true);
   }
@@ -28,11 +30,7 @@ class ServerModule {
   }
 
   Injector _getInjector() {
-    if(_injector == null){
-      _injector  =  Injector.getInjector("server_module");
-    }
-
-    return _injector;
+    return super.getInjector(SCOPE_MODULE);
   }
 
   Dio _initDio(){
