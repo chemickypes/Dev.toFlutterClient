@@ -11,11 +11,14 @@ class UserLoadingEvent extends UserEvent {
   
 }
 
+class UserUnloggedEvent extends UserEvent {}
+
 class UserLoadedEvent extends UserEvent{
   final User user;
   UserLoadedEvent({this.user}):super([user]);
 }
 
 class UserLodingErrorEvent extends UserEvent {
-  
+  UserLodingErrorEvent({this.apiKeyError});
+  bool apiKeyError = false;
 }

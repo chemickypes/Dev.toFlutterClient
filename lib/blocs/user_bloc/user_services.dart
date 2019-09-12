@@ -2,6 +2,7 @@
 import 'dart:async';
 
 import 'package:devtoclient/server/articles_retrofit.dart';
+import 'package:devtoclient/storage/session_shared_pref.dart';
 import 'package:dio/dio.dart';
 import 'package:devtoclient/models/articles.dart';
 import 'package:devtoclient/server/server_module.dart';
@@ -23,9 +24,17 @@ class UserServices {
       return Future.value(ll.first.user);
   }
 
-  void saveApiKey(String s) {
-    serverModule.insertApiKey(s);
-    dio = serverModule.getDio;
+
+  Future<User> login(String apiKey) async {
+      DCSession().saveApiKeyOnStore(apiKey);
+      serverModule.insertApiKey(apiKey);
+      dio = serverModule.getDio;
+      return getUser();
+  }
+
+  Future<bool> logout() async{
+    DCSession().removeApiKey();
+    return Future.delayed(Duration(milliseconds: 500), () => true);
   }
 
   

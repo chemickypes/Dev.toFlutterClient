@@ -118,7 +118,7 @@ class WelcomeTextWidget extends StatelessWidget {
         children: <Widget>[
           Text(
             'Hi,',
-            style: TextStyle(fontSize: 62),
+            style: TextStyle(fontSize: 62,letterSpacing: 1),
           ),
           Text(
             name ?? 'Dev.',
