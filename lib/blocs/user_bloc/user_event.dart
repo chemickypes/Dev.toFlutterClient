@@ -19,6 +19,6 @@ class UserLoadedEvent extends UserEvent{
 }
 
 class UserLodingErrorEvent extends UserEvent {
-  UserLodingErrorEvent({this.apiKeyError});
-  bool apiKeyError = false;
+  UserLodingErrorEvent({this.apiKeyError = false});
+  final bool apiKeyError;
 }

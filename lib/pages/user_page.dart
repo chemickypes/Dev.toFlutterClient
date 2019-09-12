@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:devtoclient/blocs/article_bloc/article_bloc.dart';
 import 'package:devtoclient/blocs/bloc_module.dart';
 import 'package:devtoclient/blocs/user_bloc/bloc.dart';
 import 'package:devtoclient/widgets/user_widgets.dart';
@@ -75,10 +76,48 @@ class _UserPageState extends State<UserPage> {
         )
       ],
     );
-    return _notLoggedScreen();
+
+    if (state is InitialUserState) {
+      return _notLoggedScreen(false);
+    } else if (state is UserLoadedState) {
+      BlocsModule().get<ArticleBloc>().getArticles(page:1);
+      return Container(
+        child: Center(
+          child: Text('User Logged'),
+        ),
+      );
+    } else if (state is UserLoadingErrorState) {
+      if (!state.apiKeyError) {
+        Scaffold.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(
+            SnackBar(
+              content: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'Generic Error',
+                    style: TextStyle(
+                      fontSize: 25,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Icon(
+                    Icons.error,
+                    color: Colors.white,
+                  ),
+                ],
+              ),
+              backgroundColor: Colors.red,
+            ),
+          );
+      }
+      return _notLoggedScreen(state.apiKeyError);
+    }
+    return _notLoggedScreen(false);
   }
 
-  Widget _notLoggedScreen() {
+  Widget _notLoggedScreen(bool apiKeyError) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,10 +126,11 @@ class _UserPageState extends State<UserPage> {
           SizedBox(
             height: 30,
           ),
-          Text('Insert your api-key in order to login'),
+          Text('Insert your api-key'),
           TextField(
             decoration: InputDecoration(
               labelText: "Enter you api-key",
+              errorText: apiKeyError ? 'Wrong Api-key!' : null,
             ),
             controller: _controller,
           ),
@@ -99,7 +139,7 @@ class _UserPageState extends State<UserPage> {
             color: Colors.indigo,
             textColor: Colors.white,
             onPressed: () {
-              _userBloc.saveApiKey(_controller.text);
+              _userBloc.login(_controller.text);
             },
           )
         ],

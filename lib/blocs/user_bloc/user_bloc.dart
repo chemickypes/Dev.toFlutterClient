@@ -18,7 +18,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     }else if (event is UserLoadedEvent){
       yield UserLoadedState(user:event.user);
     }else if(event is UserLodingErrorEvent){
-      yield UserLoadingErrorState();
+      yield UserLoadingErrorState(apiKeyError: event.apiKeyError);
     }else if(event is UserUnloggedEvent){
       yield InitialUserState();
     }

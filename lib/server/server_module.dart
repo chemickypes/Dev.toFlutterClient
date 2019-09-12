@@ -21,10 +21,10 @@ class ServerModule extends AInjecstionModule{
   Dio get getDio {
     Dio dio = _getInjector().get<Dio>();
     DioHeader dioHeader = _getInjector().get<DioHeader>();
-    String api_key = dioHeader.apiKey;
+    String apiKey = dioHeader.apiKey;
     //print(dioHeader.toString());
-    if(api_key != null || api_key?.isNotEmpty == true){
-      dio.options.headers['api-key'] = api_key;
+    if(apiKey != null || apiKey?.isNotEmpty == true){
+      dio.options.headers['api-key'] = apiKey;
     }
     return dio;
   }

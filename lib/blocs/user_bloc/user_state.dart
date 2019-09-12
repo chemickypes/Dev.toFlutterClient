@@ -19,5 +19,6 @@ class UserLoadedState extends UserState {
 }
 
 class UserLoadingErrorState extends UserState {
-  
+  final bool apiKeyError ;
+  UserLoadingErrorState({this.apiKeyError = false});
 }
