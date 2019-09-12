@@ -104,3 +104,28 @@ class UserIcon extends StatelessWidget {
     return ss;
   }
 }
+
+class WelcomeTextWidget extends StatelessWidget {
+  const WelcomeTextWidget({Key key, this.name}) : super(key: key);
+
+  final String name;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            'Hi,',
+            style: TextStyle(fontSize: 62),
+          ),
+          Text(
+            name ?? 'Dev.',
+            style: TextStyle(fontSize: 72),
+          ),
+        ],
+      ),
+    );
+  }
+}
