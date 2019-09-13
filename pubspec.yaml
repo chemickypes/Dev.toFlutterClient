@@ -28,6 +28,8 @@ dependencies:
   cached_network_image: ^1.1.1
   shared_preferences: ^0.5.3+4
   auto_size_text: ^2.1.0
+  intl: ^0.16.0
+
 
 
   # The following adds the Cupertino Icons font to your application.

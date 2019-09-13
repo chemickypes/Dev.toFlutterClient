@@ -3,6 +3,7 @@ import 'package:devtoclient/widgets/user_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:intl/intl.dart';
 
 import '../blocs/article_bloc/bloc.dart';
 
@@ -114,57 +115,69 @@ class ArticleInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
+      child: InkWell(
+        onTap: () {
+          print("tap on ${article.canonicalUrl}");
+        },
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
                   article.title,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontSize: 25),
                 ),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: UserIcon(
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: UserIcon(
                       user: article.user,
                       height: 45,
                       width: 45,
                     ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text('Author: ${article.user.name}'),
-                   
-                    Wrap(
-                      spacing: 3,
-                      runSpacing: 0,
-                      children: article.tagList.map((tag) {
-                        return Chip(
-                          label: Text(
-                            tag,
-                            style: TextStyle(fontSize: 12),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                            '${article.user.name} - ${DateFormat.yMMMMd().format(DateTime.parse(article.publishedTimestamp))}'),
+                        Container(
+                          child: Wrap(
+                            spacing: 3,
+                            runSpacing: 0,
+                            children: article.tagList.map((tag) {
+                              return Chip(
+                                label: Text(
+                                  tag,
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                              );
+                            }).toList(),
                           ),
-                        );
-                      }).toList(),
+                        ),
+                      ],
                     ),
-                  ],
-                )
-              ],
-            ),
-          ],
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
