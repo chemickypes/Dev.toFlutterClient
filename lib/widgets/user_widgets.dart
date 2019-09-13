@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:devtoclient/blocs/user_bloc/bloc.dart';
 import 'package:devtoclient/blocs/user_bloc/user_bloc.dart';
 import 'package:devtoclient/models/articles.dart';
@@ -112,6 +113,7 @@ class WelcomeTextWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: MediaQuery.of(context).size.width -16,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -119,9 +121,10 @@ class WelcomeTextWidget extends StatelessWidget {
             'Hi,',
             style: TextStyle(fontSize: 62,letterSpacing: 1),
           ),
-          Text(
+          AutoSizeText(
             name ?? 'Dev.',
-            style: TextStyle(fontSize: 72),
+            style: TextStyle(fontSize: 72, color: Colors.indigo),
+            maxLines: 1,
           ),
         ],
       ),

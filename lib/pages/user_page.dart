@@ -88,6 +88,7 @@ class _UserPageState extends State<UserPage> {
         WelcomeTextWidget(
           name: "@${user.username}",
         ),
+        SizedBox(height: 40,),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
