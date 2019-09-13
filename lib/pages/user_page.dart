@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:devtoclient/blocs/article_bloc/article_bloc.dart';
 import 'package:devtoclient/blocs/bloc_module.dart';
 import 'package:devtoclient/blocs/user_bloc/bloc.dart';
+import 'package:devtoclient/models/articles.dart';
 import 'package:devtoclient/widgets/user_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,48 +45,11 @@ class _UserPageState extends State<UserPage> {
   }
 
   Widget _getScreen(UserState state) {
-    Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        CachedNetworkImage(
-          imageUrl: "http://via.placeholder.com/200x150",
-          imageBuilder: (context, imgProvider) => Container(
-            height: 100,
-            width: 100,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: imgProvider,
-                  fit: BoxFit.cover,
-                )),
-          ),
-        ),
-        Flexible(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "NAME",
-                  style: TextStyle(fontSize: 25),
-                )
-              ],
-            ),
-          ),
-        )
-      ],
-    );
-
     if (state is InitialUserState) {
       return _notLoggedScreen(false);
     } else if (state is UserLoadedState) {
-      BlocsModule().get<ArticleBloc>().getArticles(page:1);
-      return Container(
-        child: Center(
-          child: Text('User Logged'),
-        ),
-      );
+      BlocsModule().get<ArticleBloc>().getArticles(page: 1);
+      return _getLoggedScreen(state.user);
     } else if (state is UserLoadingErrorState) {
       if (!state.apiKeyError) {
         Scaffold.of(context)
@@ -115,6 +79,49 @@ class _UserPageState extends State<UserPage> {
       return _notLoggedScreen(state.apiKeyError);
     }
     return _notLoggedScreen(false);
+  }
+
+  Widget _getLoggedScreen(User user) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        WelcomeTextWidget(
+          name: "@${user.username}",
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            CachedNetworkImage(
+              imageUrl: user.profileImage,
+              imageBuilder: (context, imgProvider) => Container(
+                height: 100,
+                width: 100,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: imgProvider,
+                      fit: BoxFit.cover,
+                    )),
+              ),
+            ),
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      user.name,
+                      style: TextStyle(fontSize: 25),
+                    )
+                  ],
+                ),
+              ),
+            )
+          ],
+        )
+      ],
+    );
   }
 
   Widget _notLoggedScreen(bool apiKeyError) {
