@@ -114,6 +114,7 @@ class ArticleInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       child: InkWell(
         onTap: () {
