@@ -16,7 +16,6 @@ class AppBarUserIcon extends StatelessWidget {
       return IconButton(
         icon: _getUserIcon(status),
         onPressed: () {
-          //_bloc.saveApiKey("T5rmFtnJ2SMhjkhpHPRMGY3A");
           Navigator.push(
             context,
             MaterialPageRoute(
